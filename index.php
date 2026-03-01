@@ -2,8 +2,6 @@
 use Krypitonite\Mail\Email;
 use Krypitonite\Util\ValidateUtil;
 
-// https://nfe.io/doc/integracao/clientes-sdk/php/
-// https://imasters.com.br/back-end/emitindo-nfe-com-php
 require_once 'vendor/autoload.php';
 require_once 'config/Configuration.php';
 require_once 'krypitonite/src/Http/Request.php';
