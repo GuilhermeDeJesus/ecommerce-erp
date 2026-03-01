@@ -33,6 +33,16 @@ class Configuration
     const MYSQL_USER = 'evamodamodesta_user'; // root
     const MYSQL_PASS = '1995179ati'; // 1995179
     const MYSQL_DB = 'evamodamodesta_db';  // eva
+
+    private static function envValue($name, $default)
+    {
+        $value = getenv($name);
+        if ($value === false || $value === '') {
+            return $default;
+        }
+
+        return $value;
+    }
     
     // Configurations MAIL
     const MAIL_USERNAME    = 'contato@agiliza.com.br';
@@ -53,11 +63,18 @@ class Configuration
         'user'     => self::MYSQL_USER,
         'password' => self::MYSQL_PASS,
         'host'     => self::MYSQL_HOST,
+        'port'     => self::MYSQL_PORT,
         'driver'   => 'pdo_mysql'
     ];
 
     public static function getConnectionParams()
     {
+        self::$connectionParams['dbname'] = self::envValue('MYSQL_DB', self::MYSQL_DB);
+        self::$connectionParams['user'] = self::envValue('MYSQL_USER', self::MYSQL_USER);
+        self::$connectionParams['password'] = self::envValue('MYSQL_PASS', self::MYSQL_PASS);
+        self::$connectionParams['host'] = self::envValue('MYSQL_HOST', self::MYSQL_HOST);
+        self::$connectionParams['port'] = (int) self::envValue('MYSQL_PORT', self::MYSQL_PORT);
+
         return self::$connectionParams;
     }
 }

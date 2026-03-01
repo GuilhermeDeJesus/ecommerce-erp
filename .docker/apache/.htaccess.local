@@ -1,0 +1,43 @@
+RewriteEngine On
+RewriteCond %{QUERY_STRING} no_mobile_theme
+RewriteRule ^(.*)$ /$1? [R=301,L]
+
+RewriteEngine On
+RewriteCond %{QUERY_STRING} ps_full_site=1
+RewriteRule ^(.*)$ /$1? [R=301,L]
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /index.php
+
+    RewriteCond %{QUERY_STRING} m=site&c=site
+    RewriteRule ^(.*)$ /$1? [R=301,L]
+
+    ErrorDocument 404 /404.phtml
+
+    RewriteRule ^$ ?m=site&c=site [QSA,L,NC]
+    RewriteRule ^categoria/([a-z0-9-]+)/([a-z0-9-]+)$ ?m=produto&c=produto&a=lista&father=$1&cat=$2 [NC,L]
+    RewriteRule ^categoria/([a-z0-9-]+)$ ?m=produto&c=produto&a=lista&father=$1 [NC,L]
+    RewriteRule ^categoria/([a-z0-9-]+)/([a-z0-9-]+)/([a-z0-9-]+)$ ?m=produto&c=produto&a=lista&marca=$1&cat=$2&father=$3 [NC,L]
+    RewriteRule ^produto/([a-z0-9-]+)/([a-z0-9-]+)$ ?m=produto&c=produto&a=detalhes&id=$1&cod=$2 [NC,L]
+    RewriteRule ^minha-conta$ ?m=cliente&c=cliente&a=conta [NC,L]
+    RewriteRule ^meu-carrinho$ ?m=checkout&c=checkout&a=cesta [NC,L]
+    RewriteRule ^current-checkout$ ?m=checkout&c=checkout&a=finalizar [NC,L]
+    RewriteRule ^checkout$ ?m=checkout&c=checkout&a=current_checkout
+    RewriteRule ^capturar-sessao$ ?m=pagamento&c=pagamento&a=iniciaPagamento
+    RewriteRule ^finalizar-pedido$ ?m=checkout&c=checkout&a=finalizarPedido
+    RewriteRule ^prazos-e-entregas$ ?m=produto&c=produto&a=prazos_e_entregas
+    RewriteRule ^troca-e-devolucao$ ?m=produto&c=produto&a=trocas_e_devolucao
+    RewriteRule ^faq-perguntas-frequentes$ ?m=produto&c=produto&a=faq
+    RewriteRule ^cartao-mp-aprovado$ ?m=pagamento&c=pagamentoMP&a=aprovadoCartao
+    RewriteRule ^boleto-mp-aprovado$ ?m=pagamento&c=pagamentoMP&a=aprovadoBoleto
+    RewriteRule ^receive-clearsale-status$ ?m=pagamento&c=pagamentoPagarme&a=receberStatusTransacaoClear
+    RewriteRule ^marca/([a-z0-9-]+)$ ?m=produto&c=produto&a=lista&marca=$1 [NC,L]
+    RewriteRule ^marca/([a-z0-9-]+)/([a-z0-9-]+)$ ?m=produto&c=produto&a=lista&marca=$1&father=$2 [NC,L]
+    RewriteRule ^marca/([a-z0-9-]+)/([a-z0-9-]+)/([a-z0-9-]+)$ ?m=produto&c=produto&a=lista&marca=$1&father=$2&cat=$3 [NC,L]
+    RewriteRule ^2em1OFF$ ?m=produto&c=produto&a=detalhes&id=269&cod=conheca-a-incrivel-chapinha-que-faz-cachos-e-tambem-alisa [NC,L]
+    RewriteRule ^datafeeds/vitas_shopping$ ?m=sistema&c=produto&a=catalogoXml [NC,L]
+    RewriteRule ^tabela-atacado$ ?m=produto&c=produto&a=tabelaAtacado [QSA,L,NC]
+    RewriteRule ^tabela-varejo$ ?m=produto&c=produto&a=tabelaVarejo [QSA,L,NC]
+    RewriteRule ^ecomerce-admin$ ?m=sistema&c=login&a= [QSA,L,NC]
+</IfModule>
