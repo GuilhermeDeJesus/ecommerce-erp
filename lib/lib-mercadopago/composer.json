@@ -1,0 +1,20 @@
+{
+	"name": "mercadopago/sdk",
+	"description": "MercadoPago SDK module for Payments integration.",
+	"keywords": ["mercadopago", "sdk"],
+	"authors": [
+		{
+			"name": "Horacio Casatti",
+			"email": "horacio.casatti@mercadolibre.com"
+		}
+	],
+	"require": {
+		"ext-curl": "*",
+		"mercadopago/sdk": "0.5.2"
+	},
+	"autoload": {
+		"classmap": [
+			"lib/mercadopago.php"
+		]
+	}
+}

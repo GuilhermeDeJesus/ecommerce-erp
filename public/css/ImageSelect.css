@@ -1,0 +1,26 @@
+.chose-image {
+	width:55px;
+	height:55px;
+	padding: 10px;;
+}
+
+.chose-image-small {
+	width:40px;
+	height:40px;
+	vertical-align: middle;
+	margin-top: 3px;
+	margin-bottom: 10px;
+	padding: 0 3px 0 0;
+}
+
+.chose-image-list {
+	width:50px;
+	height:50px;
+	vertical-align: middle;
+	margin-top: 10px;
+	padding: 0 3px 0 3px;
+}
+
+div.chosen-container-multi .result-selected img {
+	opacity: 0.3;
+}

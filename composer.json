@@ -1,0 +1,36 @@
+{
+	"author": "Guilherme de Jesus Silva",
+	"require": {
+		"php": ">=7.4",
+		"monolog/monolog": "1.25.3",
+		"doctrine/dbal": "3.4.4",
+		"phpunit/phpunit": "5.2.*",
+		"sensiolabs/behat-page-object-extension": "@dev",
+		"guzzlehttp/guzzle": "*",
+		"phpmailer/phpmailer": "~5.2",
+		"gerencianet/gerencianet-sdk-php": "^2.4",
+		"developercielo/api-3.0-php": "^1.0",
+		"tritoq/cielo": "dev-master",
+		"developersrede/erede-php": "*",
+		"pagarme/pagarme-php": "^4.0",
+		"vria/nodiacritic": "*",
+		"stavarengo/php-sigep": "dev-master",
+		"stavarengo/php-sigep-fpdf": "dev-master",
+		"bbarreto/skyhub-php-sdk": "^0.0.10",
+		"bittools/skyhub-php": "^1.2",
+		"nfephp-org/sped-nfe": "dev-master",
+		"odesenvolvedor/clearsale-php-sdk": "^1.2",
+		"mercadopago/dx-php": "^2.6.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Store\\": "src/",
+			"Krypitonite\\": "Krypitonite/src/",
+			"Configuration\\": "config/"
+		}
+	},
+	"config": {
+		"bin-dir": "bin"
+	},
+	"minimum-stability": "stable"
+}

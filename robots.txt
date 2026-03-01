@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /src/Core
+Disallow: /src/Sistema
+Disallow: /src/Database

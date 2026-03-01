@@ -1,0 +1,78 @@
+.announcement-bar {
+	background-color: #FF8C00;
+}
+
+.selo-compra-segura {
+	color: #16B24A;
+	text-transform: uppercase;
+	font-family: "Arial";
+	font-size: 12px;
+	text-align: left;
+	width: 100%;
+	font-weight: bold;
+	padding-right: 25px;
+	padding-top: 5px;
+}
+
+.announcement-bar--link {
+	display: block;
+}
+
+.announcement-bar {
+	text-align: center;
+	position: relative;
+	z-index: 10;
+}
+
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+.announcement-bar__message {
+	color: #fff;
+}
+
+.announcement-bar__message {
+	display: block;
+	font-size: 0.88889em;
+	font-weight: 600;
+	padding: 10px 22px;
+}
+
+#ultimas_unidades {
+	display: none;
+	margin: 0px 0 15px !important;
+	text-align: left;
+	font-size: 15px;
+}
+
+#temporizador {
+	text-align: left;
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 0px;
+}
+
+#hours {
+	font-weight: 400;
+	font-style: normal;
+	display: inline;
+	padding: 15px;
+	margin-right: 5px;
+	border: 1px solid rgba(0, 0, 0, .1);
+}
+
+.whatsapp {
+	position: fixed;
+	top: 90%;
+	width: 60px;
+	height: 60px;
+	right: 3%;
+	padding: 10px;
+	z-index: 10000000;
+}

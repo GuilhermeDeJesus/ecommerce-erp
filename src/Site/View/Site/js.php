@@ -1,0 +1,16 @@
+<script src="public/js/jquery-ui.js"></script>
+<script src="public/js/minicart.js"></script>
+<script src="public/js/jquery.magnific-popup.js"></script>
+<script src="public/js/jquery.magnific-popup.js"></script>
+<!-- <script src="public/js/SmoothScroll.min.js"></script> -->
+<script src="public/js/move-top.js"></script>
+<script src="public/js/bootstrap.js"></script>
+<script src="public/js/easing.js"></script>
+<script src="public/js/imagezoom.js"></script>
+<script src="public/js/jquery.flexslider.js"></script>
+<script src="public/js/jquery.flexisel.js"></script>
+<script src="public/js/jquery.magnific-popup.js"></script>
+<script src="public/js/creditly.js"></script>
+<script src="public/js/easyResponsiveTabs.js"></script>
+<script src="public/cart/js/modernizr.js"></script>
+<script src="public/cart/js/main.js"></script>

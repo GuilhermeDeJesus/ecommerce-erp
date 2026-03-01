@@ -1,0 +1,13 @@
+https://dashboard.stripe.com/test/dashboard
+https://medium.com/@rcdexta/simple-credit-card-payment-form-with-stripe-js-4fd74903e23c
+http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?WSDL
+https://sac.uol.com.br/#/cancelarProduto
+https://www.w3schools.com/howto/howto_js_autocomplete.asp
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_autocomplete -  Dica para fazer o modulo de pesquisa
+https://codepen.io/hswd/pen/JYvgBW
+https://minhacasaminharenda7.wordpress.com/2011/09/05/fornecedores-de-maquiagens/
+
+Referências
+
+https://www.dannycosmeticos.com.br/
+https://www.clicksophia.com.br/

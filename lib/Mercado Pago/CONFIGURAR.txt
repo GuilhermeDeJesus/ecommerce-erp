@@ -1,0 +1,11 @@
+## Obter chave (Public key e Access token)
+https://www.mercadopago.com/mlb/account/credentials
+
+
+- Primeiro, realizar os testes com as chaves TESTE (SandBox);
+- Acesse o arquivo "includes/config.php" e coloque suas Public key e Access token;
+
+- Para funcionar em Modo Produção, além de utilizar as chaves de Produção, seu site precisa ter SSL Ativo (começar com HTTPS);
+- Caso ocorra erro nas vendas, entrar em contato com o suporte do MercadoPago no link: https://www.mercadopago.com.br/ajuda/tudo-sobre-receber-pagamentos_581
+
+

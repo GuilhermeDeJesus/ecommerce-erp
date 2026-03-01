@@ -1,0 +1,51 @@
+.project
+
+# IDEs e editores
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Eclipse / IDEs antigas
+.settings/
+.buildpath
+.classpath
+.metadata/
+
+# NetBeans
+nbproject/private/
+nbproject/build-impl.xml
+
+# Dependências
+vendor/
+
+# Arquivos de ambiente local
+.env
+.env.*
+!.env.example
+
+# SQL / dumps / backups
+*.sql
+*.sqlite
+*.sqlite3
+*.dump
+*.bak
+*.backup
+
+# Logs e temporários
+*.log
+error_log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Cache / runtime
+cache/
+tmp/
+temp/
+storage/cache/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
