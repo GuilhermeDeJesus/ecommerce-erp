@@ -11,6 +11,8 @@
 .buildpath
 .classpath
 .metadata/
+.ptp-sync/
+.ptp-sync-folder
 
 # NetBeans
 nbproject/private/
