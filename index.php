@@ -2,6 +2,25 @@
 use Krypitonite\Mail\Email;
 use Krypitonite\Util\ValidateUtil;
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    $sessionSavePath = ini_get('session.save_path');
+
+    if (empty($sessionSavePath) || !is_dir($sessionSavePath) || !is_writable($sessionSavePath)) {
+        $fallbackSessionPath = sys_get_temp_dir() . '/php-sessions';
+
+        if (!is_dir($fallbackSessionPath)) {
+            @mkdir($fallbackSessionPath, 0777, true);
+        }
+
+        if (is_dir($fallbackSessionPath) && is_writable($fallbackSessionPath)) {
+            session_save_path($fallbackSessionPath);
+        }
+    }
+
+    session_cache_expire(3600);
+    session_start();
+}
+
 require_once 'vendor/autoload.php';
 require_once 'config/Configuration.php';
 require_once 'krypitonite/src/Http/Request.php';
@@ -18,13 +37,11 @@ require_once 'krypitonite/src/Mail/Email.php';
 require_once 'krypitonite/src/Controller/AbstractController.php';
 require_once 'global-functions.php';
 require_once 'global-variables.php';
-session_cache_expire(3600);
-session_start();
 
 date_default_timezone_set('America/Sao_Paulo');
 ini_set('max_execution_time', 10800);
-ini_set('display_errors', '0');
-ini_set('display_startup_errors', '0');
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 set_time_limit(0);
 getSocialMidia();
 

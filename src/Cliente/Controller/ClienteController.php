@@ -446,6 +446,11 @@ class ClienteController extends AbstractController
         // Require Authentication
         $this->hasAuthentication($_SESSION);
 
+        if (!isset($_SESSION['cliente']['id_cliente'])) {
+            $this->redirect('cliente', 'cliente', 'informacoes');
+            return;
+        }
+
         if (Request::get('redirect') == 'checkout') {
             $_SESSION['REDIRECT_TO_CHECKOUT'] = TRUE;
         }
@@ -458,6 +463,11 @@ class ClienteController extends AbstractController
             '=',
             $idCliente
         ));
+
+        if (!is_array($cliente) || sizeof($cliente) === 0) {
+            $this->redirect('cliente', 'cliente', 'informacoes');
+            return;
+        }
 
         $data = [
             'pedido' => $this->dao('Core', 'Pedido')->select([

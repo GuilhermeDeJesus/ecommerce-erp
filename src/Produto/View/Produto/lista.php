@@ -88,6 +88,7 @@ use Krypitonite\Util\ValidateUtil;
 </head>
 <body>
 	<?php require_once 'src/Site/View/Site/menu.php';?>
+	<?php $marcaSelecionada = $data['marca_selececionada'] ?? null; ?>
 	<div class="_ofertas no-mobile">
 		<a href="prazos-e-entregas"><img style="width: 100%;"
 			alt="Ofertas <?=NOME_LOJA;?>"
@@ -99,7 +100,7 @@ use Krypitonite\Util\ValidateUtil;
 				<ul class="w3_short">
 					<li><a href="#">Página Inicial <i class="fas fa-angle-right"></i><?=noSeo($data['categoria_pai']);?></a></li>
 					<li><?=noSeo($data['categoria_selececionada']);?></li>
-					<li><?=($data['marca_selececionada'] != NULL) ? "</a><i class='fas fa-angle-right'></i>". noSeo($data['marca_selececionada']) : ''; ?></li>
+					<li><?=($marcaSelecionada != NULL) ? "</a><i class='fas fa-angle-right'></i>". noSeo($marcaSelecionada) : ''; ?></li>
 				</ul>
 			</div>
 		</div>
@@ -203,7 +204,7 @@ use Krypitonite\Util\ValidateUtil;
 					<div class="preco">
 						<span class="txt-preco">Preço</span>
 						<form
-							action="?m=produto&c=produto&a=lista&cat=<?=seo($data['marca_selececionada']);?>&father=<?=seo($data['categoria_pai']);?>"
+							action="?m=produto&c=produto&a=lista&cat=<?=seo($marcaSelecionada);?>&father=<?=seo($data['categoria_pai']);?>"
 							method="post">
 							<input name="min" class="min-preco" type="text" placeholder="min">
 							-<input name="max" class="max-preco dez-left" type="text"
@@ -274,7 +275,7 @@ use Krypitonite\Util\ValidateUtil;
             								<div class="men-cart-pro">
             									<div class="inner-men-cart-pro">
             										<a
-            											href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"
+	            											href="produto/<?=$produto['id'];?>/<?=$produto['cod_url_produto'];?>"
             											class="link-product-add-cart">VER MAIS</a>
             									</div>
             								</div>
@@ -282,24 +283,24 @@ use Krypitonite\Util\ValidateUtil;
             							<div class="item-info-product" style="display: none;">
             								<h4>
             									<a
-            										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if($produto['frete_gratis']){ ?>
+	            										href="produto/<?=$produto['id'];?>/<?=$produto['cod_url_produto'];?>"><?php if($produto['frete_gratis']){ ?>
             										<span class="color-marca">Frete Grátis</span> - 
             									<?php } ?><?=$produto['descricao'];?></a>
             								</h4>
             									<?php if($produto['produto_gratis']){ ?>
-            									<?php $produto['valor'] = 0; ?>
+	            									<?php $produto['valor_venda'] = 0; ?>
             										<h5 class="h5-frete-gratis">Pague Somente o Frete</h5>
             									<?php } ?>
             									<div class="info-product-price">
             										<?php if(!$produto['produto_gratis']){ ?><del>R$ <?=ValidateUtil::setFormatMoney($produto['valor_sem_oferta']);?></del>
             									<br><?php } ?>
-            										<span class="item_price">R$ <?=ValidateUtil::setFormatMoney($produto['valor']);?></span>
+	            										<span class="item_price">R$ <?=ValidateUtil::setFormatMoney($produto['valor_venda']);?></span>
             									</div>
             								<div
             									class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
             										<?php if($produto['ativo']){ ?>
             										<a
-            										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><button
+	            										href="produto/<?=$produto['id'];?>/<?=$produto['cod_url_produto'];?>"><button
             											type="button" name="" class="button-comprar-default">
             											<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
             											comprar

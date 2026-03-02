@@ -100,7 +100,7 @@ class ProdutoController extends AbstractController
 
     public function listaAction()
     {
-        $busca_produto = $_POST['busca_produto'];
+        $busca_produto = $_POST['busca_produto'] ?? [];
 
         $_post_marca = Request::get('marca');
         $min = Request::get('min');
@@ -319,6 +319,11 @@ class ProdutoController extends AbstractController
                 $idProduto
             ]
         ]);
+
+        if (!is_array($produto) || sizeof($produto) === 0) {
+            header('Location: /404.phtml', true, 302);
+            exit();
+        }
 
         // IMAGS
         $images = [];

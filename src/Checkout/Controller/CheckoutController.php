@@ -54,9 +54,21 @@ class CheckoutController extends AbstractController
     {
         // $email = new Email();
         $itens_pedido = CarrinhoUtil::getItens('_itens');
-        $cep_destino = $this->dao('Core', 'Endereco')->getField('cep', $this->post('endereco'));
-        $data = $this->getFrete_e_ValorTotal_Carrinho($cep_destino, $_SESSION['modalidade_envio']);
-        $_total = $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'], $data['_total_carrinho']);
+        if (!is_array($itens_pedido) || sizeof($itens_pedido) === 0 || !isset($_SESSION['cliente']['id_cliente'])) {
+            $this->redirect('checkout', 'checkout', 'cesta', 'carrinho_vazio=1');
+            return;
+        }
+
+        $idEndereco = $this->post('endereco');
+        if (!$idEndereco) {
+            $this->redirect('checkout', 'checkout', 'finalizar');
+            return;
+        }
+
+        $cep_destino = $this->dao('Core', 'Endereco')->getField('cep', $idEndereco);
+        $modalidadeEnvio = $_SESSION['modalidade_envio'] ?? NULL;
+        $data = $this->getFrete_e_ValorTotal_Carrinho($cep_destino, $modalidadeEnvio);
+        $_total = $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'] ?? NULL, $data['_total_carrinho']);
 
         // Gerar Pedido
         $form_pedido = [
@@ -66,12 +78,12 @@ class CheckoutController extends AbstractController
             "frete" => $data['_frete_total'],
             "frete_gratis" => verificaSeFreteGratis($_total),
             "id_cliente" => $_SESSION['cliente']['id_cliente'],
-            "id_endereco" => $this->post('endereco'),
+            "id_endereco" => $idEndereco,
             "id_situacao_pedido" => 1,
             "id_pedido_status_fornecedor" => 1,
             "numero_pedido" => rand(110000000, 990000000),
             "gateway" => "PagSeguro",
-            "codigo_envio" => $_SESSION['modalidade_envio'],
+            "codigo_envio" => $modalidadeEnvio,
             "dispositivo" => ValidateUtil::getDispositivo(),
             "social_midia" => getSocialMidia()
         ];
@@ -223,9 +235,14 @@ class CheckoutController extends AbstractController
     {
         $cep_destino = str_replace('-', '', $_POST['cep']);
 
+        $itensCarrinho = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itensCarrinho)) {
+            $itensCarrinho = [];
+        }
+
         // VALOR TOTAL CARRINHO
         $_total = [];
-        foreach (CarrinhoUtil::getItens('_itens') as $_t) {
+        foreach ($itensCarrinho as $_t) {
             $_total[] = $_t['valor'];
         }
 
@@ -252,19 +269,26 @@ class CheckoutController extends AbstractController
             CarrinhoUtil::removeItemCarrinho('_itens', $removeItem);
         }
 
+        $itensCarrinho = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itensCarrinho)) {
+            $itensCarrinho = [];
+        }
+
         // VALOR TOTAL CARRINHO
         $_total = [];
-        foreach (CarrinhoUtil::getItens('_itens') as $_t) {
+        foreach ($itensCarrinho as $_t) {
             $_total[] = $_t['valor'];
         }
 
-        $_total = $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'], array_sum($_total));
+        $cupomCliente = $_SESSION['CUPOM_CLIENTE'] ?? null;
+        $_total = $this->calcularDescontoComCupomValido($cupomCliente, array_sum($_total));
+        $qtdItens = sizeof($itensCarrinho);
 
         $data = [
             '_total' => ValidateUtil::setFormatMoney($_total),
             '_total_float' => $_total,
-            '_qtd' => (sizeof(CarrinhoUtil::getItens('_itens')) > 1) ? sizeof(CarrinhoUtil::getItens('_itens')) . ' produtos' : sizeof(CarrinhoUtil::getItens('_itens')) . ' produto',
-            '_itens' => CarrinhoUtil::getItens('_itens'),
+            '_qtd' => ($qtdItens > 1) ? $qtdItens . ' produtos' : $qtdItens . ' produto',
+            '_itens' => $itensCarrinho,
             '_frete' => NULL
         ];
 
@@ -417,10 +441,13 @@ class CheckoutController extends AbstractController
         }
 
         $itens = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itens)) {
+            $itens = [];
+        }
         $sum = [];
         foreach ($itens as $prod => $item) {
             $qtt = $item['quantidade'];
-            if ($_SESSION['prod_' . $prod] != NULL) {
+            if (isset($_SESSION['prod_' . $prod]) && $_SESSION['prod_' . $prod] != NULL) {
                 $qtt = $_SESSION['prod_' . $prod];
             }
 
@@ -432,14 +459,18 @@ class CheckoutController extends AbstractController
         }
 
         echo json_encode([
-            'value_total_cart' => $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'], array_sum($sum))
+            'value_total_cart' => $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'] ?? null, array_sum($sum))
         ]);
     }
 
     public function current_checkoutAction()
     {
         $itens = CarrinhoUtil::getItens('_itens');
-        if (isset($_POST) && sizeof($_POST['codigo']) != 0) {
+        if (!is_array($itens)) {
+            $itens = [];
+        }
+
+        if (isset($_POST['codigo']) && is_array($_POST['codigo']) && sizeof($_POST['codigo']) != 0) {
             foreach ($_POST['codigo'] as $key => $val) {
                 $itens[$val]['quantidade'] = $_POST['qtd'][$key];
                 $itens[$val]['valor'] = ($itens[$val]['valor_unitario'] * $_POST['qtd'][$key]);
@@ -466,8 +497,13 @@ class CheckoutController extends AbstractController
 
     public function finalizarAction()
     {
+        $itensCarrinho = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itensCarrinho)) {
+            $itensCarrinho = [];
+        }
+
         // Require Authentication
-        if (sizeof(CarrinhoUtil::getItens('_itens')) != 0) {
+        if (sizeof($itensCarrinho) != 0) {
             $this->hasAuthentication($_SESSION);
 
             // Endereço Principal
@@ -584,13 +620,18 @@ class CheckoutController extends AbstractController
         $_total = [];
         $detalhes_frete = [];
 
+        $itensCarrinho = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itensCarrinho)) {
+            $itensCarrinho = [];
+        }
+
         // Total dos produtos no carrinho
-        foreach (CarrinhoUtil::getItens('_itens') as $_t) {
+        foreach ($itensCarrinho as $_t) {
             $_total[] = $_t['valor'];
         }
 
         // Total do frete no carrinho
-        foreach (CarrinhoUtil::getItens('_itens') as $_t) {
+        foreach ($itensCarrinho as $_t) {
             if (! $_t['frete_gratis']) {
 
                 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

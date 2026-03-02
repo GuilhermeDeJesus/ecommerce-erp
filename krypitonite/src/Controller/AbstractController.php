@@ -82,7 +82,7 @@ abstract class AbstractController extends ApplicationUtil
 
     public function hasAuthentication($session)
     {
-        if ($session['cliente']) {
+        if (isset($session['cliente']) && $session['cliente']) {
             return true;
             // continue
         } else {
@@ -179,7 +179,15 @@ abstract class AbstractController extends ApplicationUtil
 
     protected function post($name)
     {
+        if (!isset($_POST['data'])) {
+            return NULL;
+        }
+
         $post = json_decode($_POST['data'], true);
+        if (!is_array($post)) {
+            return NULL;
+        }
+
         foreach ($post as $p) {
             if (in_array($name, $p)) {
                 if (isset($p['value']))
@@ -188,6 +196,8 @@ abstract class AbstractController extends ApplicationUtil
                     return NULL;
             }
         }
+
+        return NULL;
     }
 
     public function _setFilterRadio($_get = [])

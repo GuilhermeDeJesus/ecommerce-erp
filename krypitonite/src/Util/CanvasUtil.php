@@ -1141,6 +1141,7 @@ elseif ('h' == $tipo) {
 /**
  * ******************************************
  */
+if (!function_exists('imagecreatefrombmp')) {
 function imagecreatefrombmp($filename)
 {
     // Ouverture du fichier en mode binaire
@@ -1223,3 +1224,4 @@ function imagecreatefrombmp($filename)
     fclose($f1);
     return $res;
 } // fim function image from BMP
+}

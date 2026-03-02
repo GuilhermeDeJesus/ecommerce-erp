@@ -477,7 +477,7 @@ use Krypitonite\Util\ValidateUtil;
 								<br>
 								<span class='description-index'>
 									<a
-										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if($produto['frete_gratis']){ ?>
+										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if(!empty($produto['frete_gratis'])){ ?>
 										<span class="color-marca">Frete Grátis</span> - 
 									<?php } ?><?=$produto['descricao'];?></a>
 								</span>
@@ -523,7 +523,7 @@ use Krypitonite\Util\ValidateUtil;
 										<div class="item-produto">
             								<h4>
             									<a
-            										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if($produto['frete_gratis']){ ?>
+	            										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if(!empty($produto['frete_gratis'])){ ?>
             										<span class="color-marca">Frete Grátis</span> - 
             									<?php } ?><?=$produto['descricao'];?></a>
             								</h4>
@@ -568,7 +568,7 @@ use Krypitonite\Util\ValidateUtil;
 							<div class="item-info-product" style="display: none;">
 								<h4>
 									<a
-										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if($produto['frete_gratis']){ ?>
+										href="produto/<?=$produto['codigo'];?>/<?=$produto['cod_url_produto'];?>"><?php if(!empty($produto['frete_gratis'])){ ?>
 										<span class="color-marca">Frete Grátis</span> - 
 									<?php } ?><?=$produto['descricao'];?></a>
 								</h4>

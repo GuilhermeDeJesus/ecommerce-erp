@@ -229,7 +229,7 @@ if (is_array(CarrinhoUtil::getItens('_itens')) && sizeof(CarrinhoUtil::getItens(
 				<div class="logo-dv">
 					<h2>
 						<a href="/"><img class="logo-5" src="public/img/<?=NOME_LOGO;?>"
-							alt="<?=$value['descricao'];?>"> </a>
+							alt="<?=NOME_LOJA;?>"> </a>
 					</h2>
 				</div>
 			</div>

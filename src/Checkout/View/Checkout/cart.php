@@ -1,5 +1,8 @@
 <?php
 use Krypitonite\Util\ValidateUtil;
+
+$pixelProduto = $_SESSION['pixel_produto'] ?? '';
+$cupomValidado = $_SESSION['CUPOM_VALIDADO'] ?? false;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -37,18 +40,18 @@ use Krypitonite\Util\ValidateUtil;
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  <?php if($_SESSION['pixel_produto'] != ''){ ?>
-  fbq('init', '<?=$_SESSION['pixel_produto'];?>');
+	<?php if($pixelProduto != ''){ ?>
+	fbq('init', '<?=$pixelProduto;?>');
   fbq('track', 'AddToCart', {
 	     value: <?=$data['_total_float'];?>,
 	     currency: 'BRL'
   });
   <?php } ?>
 </script>
-  <?php if($_SESSION['pixel_produto'] != ''){ ?>
+	<?php if($pixelProduto != ''){ ?>
 <noscript>
 	<img height="1" width="1" style="display: none"
-		src="https://www.facebook.com/tr?id=<?=$_SESSION['pixel_produto'];?>&ev=AddToCart&noscript=1" />
+		src="https://www.facebook.com/tr?id=<?=$pixelProduto;?>&ev=AddToCart&noscript=1" />
 </noscript>
   <?php } ?>
 </head>
@@ -276,7 +279,7 @@ use Krypitonite\Util\ValidateUtil;
 										</span><b><span id="_total_cart">
 											R$ <?=$data['_total'];?> </span></b></li>
 									</ul>
-									<?php if(isset($_SESSION['CUPOM_VALIDADO']) && $_SESSION['CUPOM_VALIDADO'] == true){ ?>
+									<?php if($cupomValidado == true){ ?>
 									<table class="TableUI-o6rohr-0 kJZaBa">
 										<tr>
 											<td><input name="meu_cupom" placeholder="Meu cupom"
@@ -296,7 +299,7 @@ use Krypitonite\Util\ValidateUtil;
 										</tr>
 									</table>
 									<?php } ?>
-									<span style="<?=($_SESSION['CUPOM_VALIDADO'] == true) ? '' : 'display: none;';?>" id="remover-cupom-span"><a
+									<span style="<?=($cupomValidado == true) ? '' : 'display: none;';?>" id="remover-cupom-span"><a
 										href="#" id="remover_cupom"
 										style="margin-top: 10px; display: inline-block; padding: 6px;">Remover
 											cupom.</a></span> <span class="" id="badge-cupom"

@@ -833,8 +833,13 @@ class PagamentoMPController extends AbstractController
 
     public function aprovadoCartaoAction()
     {
+        $itensCarrinho = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itensCarrinho)) {
+            $itensCarrinho = [];
+        }
+
         $produto = [];
-        foreach (CarrinhoUtil::getItens('_itens') as $key => $value) {
+        foreach ($itensCarrinho as $key => $value) {
             $produto[] = $value;
         }
 
@@ -843,28 +848,31 @@ class PagamentoMPController extends AbstractController
         // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Endereço Principal
-        $endereco = $this->dao('Core', 'Endereco')->select([
-            '*'
-        ], [
-            [
-                'id_cliente',
-                '=',
-                $_SESSION['cliente']['id_cliente']
-            ],
-            [
-                'principal',
-                '=',
-                TRUE
-            ]
-        ]);
+        $endereco = [];
+        if (isset($_SESSION['cliente']['id_cliente'])) {
+            $endereco = $this->dao('Core', 'Endereco')->select([
+                '*'
+            ], [
+                [
+                    'id_cliente',
+                    '=',
+                    $_SESSION['cliente']['id_cliente']
+                ],
+                [
+                    'principal',
+                    '=',
+                    TRUE
+                ]
+            ]);
+        }
 
-        if (sizeof($endereco)) {
+        if (sizeof($endereco) && sizeof($itensCarrinho) != 0 && isset($_SESSION['cliente']['id_cliente'])) {
 
             $email = new Email();
             $itens_pedido = CarrinhoUtil::getItens('_itens');
             $cep_destino = $this->dao('Core', 'Endereco')->getField('cep', $endereco[0]['cep']);
             $data = $this->getFrete_e_ValorTotal_Carrinho($cep_destino);
-            $_total_produtos = $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'], $data['_total_carrinho']);
+            $_total_produtos = $this->calcularDescontoComCupomValido($_SESSION['CUPOM_CLIENTE'] ?? null, $data['_total_carrinho']);
 
             $_total = $_total_produtos + $data['_frete_total'];
             if (! isset($_SESSION['modalidade_envio'])) {
@@ -983,12 +991,18 @@ class PagamentoMPController extends AbstractController
         // FIM - CADASTRAR PEDIDO
         // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        $produtoAtual = isset($produto[0]) ? $produto[0] : [
+            'codigo' => '-',
+            'valor' => 0
+        ];
+
         $data = [
-            'numero_pedido' => '#' . $produto[0]['codigo'],
+            'numero_pedido' => '#' . $produtoAtual['codigo'],
             'tipo_pagamento' => "Cartão",
-            "valor" => "R$ " . ValidateUtil::setFormatMoney($produto[0]['valor']),
-            "float_valor" => $produto[0]['valor'],
-            "status" => "Aprovado"
+            "valor" => "R$ " . ValidateUtil::setFormatMoney($produtoAtual['valor']),
+            "float_valor" => $produtoAtual['valor'],
+            "status" => "Aprovado",
+            '_pixel' => $_SESSION['pixel_produto'] ?? (defined('PIXEL_FACEBOOK') ? PIXEL_FACEBOOK : '')
         ];
 
         $this->renderView('aprovado_cartao', $data);
@@ -997,17 +1011,28 @@ class PagamentoMPController extends AbstractController
     // VIEW TEST FINALY MP
     public function aprovadoBoletoAction()
     {
+        $itensCarrinho = CarrinhoUtil::getItens('_itens');
+        if (!is_array($itensCarrinho)) {
+            $itensCarrinho = [];
+        }
+
         $produto = [];
-        foreach (CarrinhoUtil::getItens('_itens') as $key => $value) {
+        foreach ($itensCarrinho as $key => $value) {
             $produto[] = $value;
         }
 
+        $produtoAtual = isset($produto[0]) ? $produto[0] : [
+            'codigo' => '-',
+            'valor' => 0
+        ];
+
         $data = [
-            'numero_pedido' => '#' . $produto[0]['codigo'],
+            'numero_pedido' => '#' . $produtoAtual['codigo'],
             'tipo_pagamento' => "Boleto Bancário",
-            "valor" => "R$ " . ValidateUtil::setFormatMoney($produto[0]['valor']),
-            "float_valor" => $produto[0]['valor'],
-            "status" => "Aguardando Pagamento"
+            "valor" => "R$ " . ValidateUtil::setFormatMoney($produtoAtual['valor']),
+            "float_valor" => $produtoAtual['valor'],
+            "status" => "Aguardando Pagamento",
+            '_pixel' => $_SESSION['pixel_produto'] ?? (defined('PIXEL_FACEBOOK') ? PIXEL_FACEBOOK : '')
         ];
 
         $this->renderView('aprovado_boleto', $data);
