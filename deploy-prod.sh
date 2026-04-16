@@ -31,3 +31,18 @@ git checkout -f -B "${BRANCH}" "origin/${BRANCH}"
 echo "[deploy] OK: \\$(git rev-parse --short HEAD) em ${BRANCH}"
 git status --short | head -n 20 || true
 '"
+
+ssh "${SSH_HOST}" "sudo bash -lc '
+set -euo pipefail
+APP_DIR="${APP_DIR}"
+APP_USER="${APP_USER}"
+APP_HOME=\\$(dirname "\\${APP_DIR}")
+
+chown -R "\\${APP_USER}:\\${APP_USER}" "\\${APP_DIR}"
+chmod 711 "\\${APP_HOME}" || true
+find "\\${APP_DIR}" -type d -exec chmod 755 {} +
+find "\\${APP_DIR}" -type f -exec chmod 644 {} +
+
+echo "[deploy] Permissões/owner normalizados"
+stat -c "%A %a %U:%G %n" "\\${APP_DIR}" "\\${APP_DIR}/.htaccess" "\\${APP_DIR}/index.php" || true
+'"

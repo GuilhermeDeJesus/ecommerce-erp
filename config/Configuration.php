@@ -28,7 +28,7 @@ class Configuration
     const PATH_NOTA          = self::PATH_APPICATION . '/data/notas';
     const FILE_CERTIFICADO_DIGITAL_A1_GJS          = self::PATH_APPICATION . '/data/certificado_digital/GJS_EMPREENDEDORISMO_DIGITAL_LTDA_20747907000126_1582207958008045000.pfx';
     
-    const MYSQL_HOST = '162.240.19.34'; // localhost
+    const MYSQL_HOST = '162.240.98.50'; // localhost
     const MYSQL_PORT = 3306;
     const MYSQL_USER = 'evamodamodesta_user'; // root
     const MYSQL_PASS = '1995179ati'; // 1995179
