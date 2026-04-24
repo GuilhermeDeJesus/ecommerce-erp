@@ -234,6 +234,7 @@ class ProdutoController extends AbstractController
 
         $categoriaPai = (Request::get('father') != '') ? str_replace('-', ' ', Request::get('father')) : '';
         $categoriaFilho = (Request::get('cat') != '') ? str_replace('-', ' ', Request::get('cat')) : '';
+        $categoriaFilhos = $result['tree'][$categoriaPai] ?? [];
 
         // Marcas sem repetições
         $mcs = [];
@@ -247,7 +248,7 @@ class ProdutoController extends AbstractController
         $data = [
             'paginacao' => $_paginator,
             'categoria_pai' => ucfirst(strtolower($categoriaPai)),
-            'categoria_filhos' => $result['tree'][$categoriaPai],
+            'categoria_filhos' => $categoriaFilhos,
             'categoria_selececionada' => $categoriaFilho,
             'marcas' => $_data_marcas,
             'marcas_unicas' => $mcs,

@@ -114,14 +114,14 @@ use Krypitonite\Util\ValidateUtil;
 		<div class="container">
 			<div class="side-bar col-md-2 no-mobile">
 				<div class="left-side">
-					<?php if($data['categoria_pai'] && sizeof($data['categoria_filhos']) != 0){ ?>
+					<?php if($data['categoria_pai'] && !empty($data['categoria_filhos']) && is_array($data['categoria_filhos'])){ ?>
 					<h5><b>Categorias</b></h5>
 					<ul class="ul-categoria">
 						<li><span class="span"><a
 								href="categoria/<?=seo($data['categoria_pai']);?>" class="no-a"><?=noSeo($data['categoria_pai']);?></a></span>
 							<ul class="filhos">
     							<?php
-                                    if ($data['categoria_filhos'] && sizeof($data['categoria_filhos']) != 0) {
+                                    if (!empty($data['categoria_filhos']) && is_array($data['categoria_filhos'])) {
                                         foreach ($data['categoria_filhos'] as $cat) {
                                             $link_categoria = "";
                                             if ($cat != NULL) {
