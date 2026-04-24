@@ -40,12 +40,16 @@ abstract class Dao
 
     protected static function getPDO()
     {
-        $_host = Configuration::MYSQL_HOST;
-        $_db = Configuration::MYSQL_DB;
+        $params = Configuration::getConnectionParams();
+        $_host = $params['host'];
+        $_db = $params['dbname'];
+        $_port = $params['port'];
+        $_user = $params['user'];
+        $_pass = $params['password'];
 
         try {
             if (! isset(self::$_pdo)) {
-                self::$_pdo = new PDO("mysql:host=$_host;dbname=$_db", Configuration::MYSQL_USER, Configuration::MYSQL_PASS, array(
+                self::$_pdo = new PDO("mysql:host=$_host;port=$_port;dbname=$_db", $_user, $_pass, array(
                     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
                 ));
 

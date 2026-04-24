@@ -9,8 +9,6 @@
 		"guzzlehttp/guzzle": "*",
 		"phpmailer/phpmailer": "~5.2",
 		"gerencianet/gerencianet-sdk-php": "^2.4",
-		"developercielo/api-3.0-php": "^1.0",
-		"tritoq/cielo": "dev-master",
 		"developersrede/erede-php": "*",
 		"pagarme/pagarme-php": "^4.0",
 		"vria/nodiacritic": "*",
@@ -30,7 +28,10 @@
 		}
 	},
 	"config": {
-		"bin-dir": "bin"
+		"bin-dir": "bin",
+		"platform": {
+			"php": "8.0.30"
+		}
 	},
 	"minimum-stability": "stable"
 }
