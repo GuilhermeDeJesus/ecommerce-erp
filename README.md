@@ -8,8 +8,8 @@
 docker compose up -d --build
 ```
 
-Aplicação: http://localhost:8080  
-MySQL: `127.0.0.1:3307` (db interna: `db:3306`)
+Aplicação: http://localhost:8091  
+MySQL: `127.0.0.1:3309` (db interna: `db:3306`)
 
 ### Credenciais locais do banco
 
